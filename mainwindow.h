@@ -8,6 +8,8 @@
 #include <QPixmap>
 #include <windows.h>
 #include <QProcess>
+#include <QComboBox>
+#include <QListView>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -29,5 +31,8 @@ private:
     QString getStorageDevices(const QString&);
     QString getCPUInfo();
     QString getRamInfo();
+    void doConnections();
+    void setupComboBox();
+    void updateHddLabel(int);
 };
 #endif // MAINWINDOW_H

@@ -74,7 +74,7 @@
 }</string>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <property name="iconSize">
         <size>
@@ -167,6 +167,75 @@
         <attribute name="title">
          <string>CPU</string>
         </attribute>
+        <widget class="QLabel" name="cpuInfoLabel">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>80</y>
+           <width>511</width>
+           <height>291</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333333;
+    background-color: #F5F5F5;
+    border: 2px solid #CCCCCC;
+    border-radius: 10px;
+    padding: 10px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>CPU Information</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignHCenter|Qt::AlignTop</set>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="cpuButton">
+         <property name="geometry">
+          <rect>
+           <x>230</x>
+           <y>410</y>
+           <width>121</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333333;
+    background-color: #F5F5F5;
+    border: 2px solid #CCCCCC;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+QPushButton:hover {
+    background-color: #E0E0E0;
+}
+
+QPushButton:pressed {
+    background-color: #CCCCCC;
+    border-color: #999999; 
+    padding: 8px; 
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Benchmark</string>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="hddTab">
         <attribute name="icon">
@@ -176,6 +245,85 @@
         <attribute name="title">
          <string>HDD</string>
         </attribute>
+        <widget class="QLabel" name="hddLabel">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>110</y>
+           <width>511</width>
+           <height>291</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333333;
+    background-color: #F5F5F5;
+    border: 2px solid #CCCCCC;
+    border-radius: 10px;
+    padding: 10px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>HDD Information</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignHCenter|Qt::AlignTop</set>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="hddButton">
+         <property name="geometry">
+          <rect>
+           <x>230</x>
+           <y>440</y>
+           <width>121</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333333;
+    background-color: #F5F5F5;
+    border: 2px solid #CCCCCC;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+QPushButton:hover {
+    background-color: #E0E0E0;
+}
+
+QPushButton:pressed {
+    background-color: #CCCCCC;
+    border-color: #999999; 
+    padding: 8px; 
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Benchmark</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comboBox">
+         <property name="geometry">
+          <rect>
+           <x>200</x>
+           <y>40</y>
+           <width>191</width>
+           <height>41</height>
+          </rect>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="logsTab">
         <attribute name="icon">

@@ -7,6 +7,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setSystemInformationLabel();
+    setupComboBox();
+    doConnections();
+    updateHddLabel(0);
+    ui->tabWidget->setCurrentIndex(0);
 }
 
 MainWindow::~MainWindow()
@@ -14,15 +18,34 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::doConnections()
+{
+    connect(ui->comboBox,QOverload<int>::of(&QComboBox::currentIndexChanged),this, &MainWindow::updateHddLabel);
+}
+
+void MainWindow::updateHddLabel(int index)
+{
+    ui->hddLabel->setText(getStorageDevices(QString::number(index)));
+}
 void MainWindow::setSystemInformationLabel()
 {
     QString cpuInformation = getCPUInfo();
+    ui->cpuInfoLabel->setText(cpuInformation);
     QString ramInfo = getRamInfo();
     QString cDrive = getStorageDevices("0");
     QString dDrive = getStorageDevices("1");
 
     QString result = cpuInformation +"<br>" + ramInfo + "<br>" + cDrive + "<br>" + dDrive;
     ui->systemInfoLabel->setText(result);
+}
+
+void MainWindow::setupComboBox()
+{
+    auto comboBox = ui->comboBox;
+    auto listView = new QListView(comboBox);
+    comboBox->setView(listView);
+    comboBox->addItem(getStorageDevices("0"));
+    comboBox->addItem(getStorageDevices("1"));
 }
 
 QString MainWindow::getRamInfo()
