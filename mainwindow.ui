@@ -74,7 +74,7 @@
 }</string>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>3</number>
        </property>
        <property name="iconSize">
         <size>
@@ -333,6 +333,29 @@ QPushButton:pressed {
         <attribute name="title">
          <string>Logs</string>
         </attribute>
+        <widget class="QTextBrowser" name="textBrowser">
+         <property name="geometry">
+          <rect>
+           <x>145</x>
+           <y>120</y>
+           <width>951</width>
+           <height>461</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QTextBrowser {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333333;
+    background-color: #F5F5F5;
+    border: 2px solid #CCCCCC;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+</string>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="previousTab">
         <attribute name="icon">
