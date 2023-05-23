@@ -1,18 +1,12 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "Benchmarks/include/benchmark/hdd/hddReadWriteBenchmark.h"
-#include "Benchmarks/include/timer/Timer.h"
-#include <QtConcurrent/QtConcurrent>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    button = new QPushButton("Update", this);
-    lineEdit = new QLineEdit(this);
-
-    connect(button, &QPushButton::clicked, this, &MainWindow::on_pushButton_clicked);
+    setSystemInformationLabel();
 }
 
 MainWindow::~MainWindow()
@@ -20,20 +14,95 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-void MainWindow::on_pushButton_clicked()
+void MainWindow::setSystemInformationLabel()
 {
-    auto hdd = new benchmark::hdd::HDDWriteSpeedBenchmark;
-    auto timer = new timer::Timer;
+    QString cpuInformation = getCPUInfo();
+    QString ramInfo = getRamInfo();
+    QString cDrive = getStorageDevices("0");
+    QString dDrive = getStorageDevices("1");
 
-    hdd->setMaxIndex(2);
-    hdd->setMinIndex(0);
-    hdd->setPrefix("data-files/data");
-    hdd->setSuffix(".dat");
-    timer->start();
-    QFuture<void> future1 = QtConcurrent::run([&hdd]() {hdd->run("fs");});
-    future1.waitForFinished();
-    double test = timer->stop().count();
-    lineEdit->setText(QString::number(test));
+    QString result = cpuInformation +"<br>" + ramInfo + "<br>" + cDrive + "<br>" + dDrive;
+    ui->systemInfoLabel->setText(result);
 }
 
+QString MainWindow::getRamInfo()
+{
+    QProcess process;
+    QString command = "wmic ComputerSystem get TotalPhysicalMemory";
+
+    process.start("cmd.exe", QStringList() << "/C" << command);
+    process.waitForFinished();
+
+    QByteArray output = process.readAllStandardOutput();
+    QString ramInfo = QString::fromLocal8Bit(output);
+
+    // Extract the RAM size from the output
+    QStringList lines = ramInfo.split('\n', Qt::SkipEmptyParts);
+    if (lines.size() >= 2) {
+        QString ramSizeStr = lines[1].trimmed(); // Extract the second line
+
+        // Convert RAM size from bytes to gigabytes
+        qlonglong ramSizeBytes = ramSizeStr.toLongLong();
+        double ramSizeGB = ramSizeBytes / (1024.0 * 1024.0 * 1024.0);
+
+        ramInfo = "Total RAM Size: " + QString::number(ramSizeGB, 'f', 2) + " GB";
+    } else {
+        ramInfo = "Failed to retrieve RAM information.";
+    }
+
+    return ramInfo;
+}
+
+QString MainWindow::getCPUInfo()
+{
+    QString cpuInformation;
+
+    QProcess process;
+    QString command = "wmic cpu get Name, Manufacturer, MaxClockSpeed, NumberOfCores, NumberOfLogicalProcessors /format:list";
+
+    process.start("cmd.exe", QStringList() << "/C" << command);
+    process.waitForFinished(-1);
+
+    if (process.exitCode() == QProcess::NormalExit) {
+        QByteArray output = process.readAllStandardOutput();
+        output.replace("\n","<br>");
+        cpuInformation = QString::fromLocal8Bit(output).trimmed();
+    } else {
+        cpuInformation = "Failed to retrieve CPU information.";
+    }
+
+    return cpuInformation;
+}
+
+QString MainWindow::getStorageDevices(const QString& driveLetter) {
+    QProcess process;
+    QString command = "wmic diskdrive where Index='" + driveLetter + "' get Model,Size /value";
+
+    process.start("cmd.exe", QStringList() << "/C" << command);
+    process.waitForFinished();
+
+    QString output = process.readAllStandardOutput();
+
+    // Extract the model and size from the output
+    QString deviceModel;
+    QString deviceSize;
+    QStringList lines = output.split("\n", Qt::SkipEmptyParts);
+    for (const QString& line : lines) {
+        QStringList parts = line.split("=");
+        if (parts.size() == 2) {
+            QString key = parts[0].trimmed();
+            QString value = parts[1].trimmed();
+            if (key == "Model")
+                deviceModel = value;
+            else if (key == "Size") {
+                // Convert the size to GB
+                double sizeBytes = value.toDouble();
+                double sizeGB = sizeBytes / (1024 * 1024 * 1024);
+                deviceSize = QString::number(sizeGB, 'f', 2) + " GB";
+            }
+        }
+    }
+
+    QString deviceInfo = deviceModel + " (" + deviceSize + ")";
+    return deviceInfo;
+}
