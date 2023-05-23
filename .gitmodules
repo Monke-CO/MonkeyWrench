@@ -1,0 +1,3 @@
+[submodule "Benchmarks"]
+	path = Benchmarks
+	url = git@github.com:Monke-CO/CO-Project.git
