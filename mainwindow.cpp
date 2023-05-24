@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
     //setShadowEffect(ui->tabWidget);
     ui->cpuGifLabel->hide();
     ui->hddGifLabel->hide();
+    ui->cpuLoading->hide();
+    ui->hddLoading->hide();
     ui->tabWidget->setCurrentIndex(0);
 }
 
@@ -40,12 +42,15 @@ void MainWindow::cpuBenchmarkClicked()
     QMovie* gif = new QMovie(":/resources/monkey-spinning-holding-hands.gif");
     ui->cpuGifLabel->setMovie(gif);
     ui->cpuGifLabel->show();
+    ui->cpuLoading->show();
     gif->start();
 
     //simulate benchmark
     waitAsync(2000);
     gif->stop();
     ui->cpuGifLabel->hide();
+    ui->cpuResult->show();
+    ui->cpuLoading->hide();
 }
 
 void MainWindow::hddBenchmarkClicked()
@@ -53,12 +58,15 @@ void MainWindow::hddBenchmarkClicked()
     QMovie* gif = new QMovie(":/resources/monkey-spinning-holding-hands.gif");
     ui->hddGifLabel->setMovie(gif);
     ui->hddGifLabel->show();
+    ui->hddLoading->show();
     gif->start();
 
     //simulate benchmark
     waitAsync(2000);
     gif->stop();
     ui->hddGifLabel->hide();
+    ui->hddResult->show();
+    ui->hddLoading->hide();
 }
 void MainWindow::setSystemInformationLabel()
 {

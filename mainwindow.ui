@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Monkey Wrench</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow::titleBar { background-color: #FF0000; }</string>
@@ -104,11 +104,11 @@ QTabBar::tab {
 </string>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <property name="iconSize">
         <size>
-         <width>166</width>
+         <width>234</width>
          <height>40</height>
         </size>
        </property>
@@ -310,10 +310,10 @@ QPushButton:pressed {
         <widget class="QLabel" name="cpuResult">
          <property name="geometry">
           <rect>
-           <x>195</x>
-           <y>500</y>
-           <width>201</width>
-           <height>61</height>
+           <x>740</x>
+           <y>140</y>
+           <width>311</width>
+           <height>291</height>
           </rect>
          </property>
          <property name="styleSheet">
@@ -330,12 +330,15 @@ QPushButton:pressed {
          <property name="text">
           <string>Result</string>
          </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
         </widget>
         <widget class="QLabel" name="cpuScore">
          <property name="geometry">
           <rect>
            <x>195</x>
-           <y>580</y>
+           <y>540</y>
            <width>201</width>
            <height>61</height>
           </rect>
@@ -353,34 +356,6 @@ QPushButton:pressed {
          </property>
          <property name="text">
           <string>Score</string>
-         </property>
-        </widget>
-        <widget class="QFrame" name="frame">
-         <property name="geometry">
-          <rect>
-           <x>640</x>
-           <y>140</y>
-           <width>511</width>
-           <height>291</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QFramel {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333333;
-    background-color: #F5F5F5;
-    border: 2px solid #CCCCCC;
-    border-radius: 10px;
-    padding: 10px;
-}
-</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
          </property>
         </widget>
         <widget class="QLabel" name="cpuGifLabel">
@@ -406,6 +381,43 @@ QPushButton:pressed {
          </property>
          <property name="text">
           <string>CPU Information</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignHCenter|Qt::AlignTop</set>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="cpuLoading">
+         <property name="geometry">
+          <rect>
+           <x>740</x>
+           <y>670</y>
+           <width>311</width>
+           <height>61</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333333;
+    background-color: #EBD68E;
+    border: 2px solid #CCCCCC;
+    border-radius: 10px;
+    padding: 10px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Loading...</string>
          </property>
          <property name="textFormat">
           <enum>Qt::RichText</enum>
@@ -522,10 +534,10 @@ QPushButton:pressed {
         <widget class="QLabel" name="hddResult">
          <property name="geometry">
           <rect>
-           <x>195</x>
-           <y>500</y>
-           <width>200</width>
-           <height>61</height>
+           <x>740</x>
+           <y>140</y>
+           <width>310</width>
+           <height>291</height>
           </rect>
          </property>
          <property name="styleSheet">
@@ -542,12 +554,15 @@ QPushButton:pressed {
          <property name="text">
           <string>Result</string>
          </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
         </widget>
         <widget class="QLabel" name="hddScore">
          <property name="geometry">
           <rect>
            <x>195</x>
-           <y>580</y>
+           <y>540</y>
            <width>201</width>
            <height>61</height>
           </rect>
@@ -565,34 +580,6 @@ QPushButton:pressed {
          </property>
          <property name="text">
           <string>Score</string>
-         </property>
-        </widget>
-        <widget class="QFrame" name="frame_2">
-         <property name="geometry">
-          <rect>
-           <x>640</x>
-           <y>140</y>
-           <width>511</width>
-           <height>291</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QFramel {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333333;
-    background-color: #F5F5F5;
-    border: 2px solid #CCCCCC;
-    border-radius: 10px;
-    padding: 10px;
-}
-</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
          </property>
         </widget>
         <widget class="QLabel" name="hddGifLabel">
@@ -632,26 +619,43 @@ QPushButton:pressed {
           <bool>true</bool>
          </property>
         </widget>
-       </widget>
-       <widget class="QWidget" name="previousTab">
-        <property name="autoFillBackground">
-         <bool>false</bool>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">#previousTab{
-background-image: url(:/resources/BananaBackground.png);
-	background-color: #DAC16C;
-	background-repeat: no-repeat; 
-	background-position: center; 
-}</string>
-        </property>
-        <attribute name="icon">
-         <iconset resource="resources.qrc">
-          <normaloff>:/resources/previous.png</normaloff>:/resources/previous.png</iconset>
-        </attribute>
-        <attribute name="title">
-         <string>Previous runs</string>
-        </attribute>
+        <widget class="QLabel" name="hddLoading">
+         <property name="geometry">
+          <rect>
+           <x>740</x>
+           <y>670</y>
+           <width>311</width>
+           <height>61</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333333;
+    background-color: #EBD68E;
+    border: 2px solid #CCCCCC;
+    border-radius: 10px;
+    padding: 10px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Loading...</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignHCenter|Qt::AlignTop</set>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="aboutTab">
         <property name="autoFillBackground">
