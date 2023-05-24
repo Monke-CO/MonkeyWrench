@@ -14,5 +14,6 @@
         <file>resources/longhair.png</file>
         <file>resources/nose.png</file>
         <file>resources/orangutan.png</file>
+        <file>resources/banana_banner.png</file>
     </qresource>
 </RCC>

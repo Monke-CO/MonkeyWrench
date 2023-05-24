@@ -10,6 +10,13 @@
 #include <QProcess>
 #include <QComboBox>
 #include <QListView>
+#include <QPainter>
+#include <QProxyStyle>
+#include <QStylePainter>
+#include <QGraphicsDropShadowEffect>
+#include <QPushButton>
+#include <QTimer>
+#include <QMovie>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -34,6 +41,12 @@ private:
     void doConnections();
     void setupComboBox();
     void updateHddLabel(int);
+    QString getOsInfo();
     QString getDetailedStorageInfo(const QString&);
+    void setShadowEffect(QTabWidget*);
+    void waitAsync(int);
+    void cpuBenchmarkClicked();
+    void hddBenchmarkClicked();
 };
+
 #endif // MAINWINDOW_H

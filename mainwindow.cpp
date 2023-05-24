@@ -11,8 +11,12 @@ MainWindow::MainWindow(QWidget *parent)
     doConnections();
     ui->comboBox->hide();
     updateHddLabel(0);
+    //setShadowEffect(ui->tabWidget);
+    ui->cpuGifLabel->hide();
+    ui->hddGifLabel->hide();
     ui->tabWidget->setCurrentIndex(0);
 }
+
 
 MainWindow::~MainWindow()
 {
@@ -22,22 +26,58 @@ MainWindow::~MainWindow()
 void MainWindow::doConnections()
 {
     connect(ui->comboBox,QOverload<int>::of(&QComboBox::currentIndexChanged),this, &MainWindow::updateHddLabel);
+    connect(ui->cpuButton,&QPushButton::clicked,this,&MainWindow::cpuBenchmarkClicked);
+    connect(ui->hddButton,&QPushButton::clicked,this,&MainWindow::hddBenchmarkClicked);
 }
 
 void MainWindow::updateHddLabel(int index)
 {
     ui->hddLabel->setText(getDetailedStorageInfo(QString::number(index)));
 }
+
+void MainWindow::cpuBenchmarkClicked()
+{
+    QMovie* gif = new QMovie(":/resources/monkey-spinning-holding-hands.gif");
+    ui->cpuGifLabel->setMovie(gif);
+    ui->cpuGifLabel->show();
+    gif->start();
+
+    //simulate benchmark
+    waitAsync(2000);
+    gif->stop();
+    ui->cpuGifLabel->hide();
+}
+
+void MainWindow::hddBenchmarkClicked()
+{
+    QMovie* gif = new QMovie(":/resources/monkey-spinning-holding-hands.gif");
+    ui->hddGifLabel->setMovie(gif);
+    ui->hddGifLabel->show();
+    gif->start();
+
+    //simulate benchmark
+    waitAsync(2000);
+    gif->stop();
+    ui->hddGifLabel->hide();
+}
 void MainWindow::setSystemInformationLabel()
 {
+    QString osInfo = getOsInfo();
     QString cpuInformation = getCPUInfo();
     ui->cpuInfoLabel->setText(cpuInformation);
     QString ramInfo = getRamInfo();
     QString cDrive = getStorageDevices("0");
     QString dDrive = getStorageDevices("1");
 
-    QString result = cpuInformation +"<br>" + ramInfo + "<br>" + cDrive + "<br>" + dDrive;
+    QString result = osInfo + cpuInformation + ramInfo + "<br>" + cDrive + "<br>" + dDrive;
     ui->systemInfoLabel->setText(result);
+}
+
+void MainWindow::waitAsync(int milliseconds)
+{
+    QEventLoop loop;
+    QTimer::singleShot(milliseconds, &loop, &QEventLoop::quit);
+    loop.exec();
 }
 
 void MainWindow::setupComboBox()
@@ -47,6 +87,24 @@ void MainWindow::setupComboBox()
     comboBox->setView(listView);
     comboBox->addItem(getStorageDevices("0"));
     comboBox->addItem(getStorageDevices("1"));
+}
+
+void MainWindow::setShadowEffect(QTabWidget* tabWidget)
+{
+    QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
+    effect->setBlurRadius(100);
+    effect->setXOffset(100);
+    effect->setYOffset(100);
+    effect->setColor(Qt::black);
+
+    tabWidget->setGraphicsEffect(effect);
+}
+
+QString MainWindow::getOsInfo()
+{
+    QString result;
+    result += QSysInfo::prettyProductName();
+    return result;
 }
 
 QString MainWindow::getRamInfo()
@@ -82,7 +140,7 @@ QString MainWindow::getCPUInfo()
     QString cpuInformation;
 
     QProcess process;
-    QString command = "wmic cpu get Name, Manufacturer, MaxClockSpeed, NumberOfCores, NumberOfLogicalProcessors /format:list";
+    QString command = "wmic cpu get Name, Manufacturer, NumberOfCores, NumberOfLogicalProcessors /format:list";
 
     process.start("cmd.exe", QStringList() << "/C" << command);
     process.waitForFinished(-1);
