@@ -1,11 +1,18 @@
 <RCC>
-    <qresource prefix="/">            
-            <file>resources/cpu.png</file>
-            <file>resources/hdd.png</file>
-            <file>resources/log.png</file>
-            <file>resources/people.png</file>
-            <file>resources/previous.png</file>
-            <file>resources/home.png</file>
-            <file>resources/BananaBackground.png</file>
+    <qresource prefix="/">
+        <file>resources/cpu.png</file>
+        <file>resources/hdd.png</file>
+        <file>resources/log.png</file>
+        <file>resources/people.png</file>
+        <file>resources/previous.png</file>
+        <file>resources/home.png</file>
+        <file>resources/BananaBackground.png</file>
+        <file>resources/monkey-holding-wrench.ico</file>
+        <file>resources/monkey-spinning-holding-hands.gif</file>
+        <file>resources/babuin.png</file>
+        <file>resources/gorilla.png</file>
+        <file>resources/longhair.png</file>
+        <file>resources/nose.png</file>
+        <file>resources/orangutan.png</file>
     </qresource>
 </RCC>

@@ -34,5 +34,6 @@ private:
     void doConnections();
     void setupComboBox();
     void updateHddLabel(int);
+    QString getDetailedStorageInfo(const QString&);
 };
 #endif // MAINWINDOW_H

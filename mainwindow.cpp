@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     setSystemInformationLabel();
     setupComboBox();
     doConnections();
+    ui->comboBox->hide();
     updateHddLabel(0);
     ui->tabWidget->setCurrentIndex(0);
 }
@@ -25,7 +26,7 @@ void MainWindow::doConnections()
 
 void MainWindow::updateHddLabel(int index)
 {
-    ui->hddLabel->setText(getStorageDevices(QString::number(index)));
+    ui->hddLabel->setText(getDetailedStorageInfo(QString::number(index)));
 }
 void MainWindow::setSystemInformationLabel()
 {
@@ -127,5 +128,39 @@ QString MainWindow::getStorageDevices(const QString& driveLetter) {
     }
 
     QString deviceInfo = deviceModel + " (" + deviceSize + ")";
+    return deviceInfo;
+}
+
+QString MainWindow::getDetailedStorageInfo(const QString& driveIndex) {
+    QProcess process;
+    QString command = "wmic diskdrive where Index=" + driveIndex + " get Caption,Description,Model,Size /value";
+
+    process.start("cmd.exe", QStringList() << "/C" << command);
+    process.waitForFinished();
+
+    QString output = process.readAllStandardOutput();
+    QStringList lines = output.split("\n", Qt::SkipEmptyParts);
+
+    QString deviceInfo;
+    for (const QString& line : lines) {
+        QStringList parts = line.split("=");
+        if (parts.size() == 2) {
+            QString key = parts[0].trimmed();
+            QString value = parts[1].trimmed();
+
+            if (key == "Caption") {
+                //deviceInfo += "Drive: " + value + "<br>";
+            } else if (key == "Description") {
+                deviceInfo += "Description: " + value + "<br>";
+            } else if (key == "Model") {
+                deviceInfo += "Model: " + value + "<br>";
+            } else if (key == "Size") {
+                auto bytes = value.toULongLong();
+                bytes /= 1024*1024*1024;
+                deviceInfo += "Size: " + QString::number(bytes) + " GB" + "<br>";
+            }
+        }
+    }
+
     return deviceInfo;
 }
