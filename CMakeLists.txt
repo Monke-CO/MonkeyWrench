@@ -54,8 +54,7 @@ target_link_libraries(MonkeyWrench PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
 	hdd-lib
 	cpu-lib
-        logger-lib
-	timer-lib
+        timer-lib
 )
 
 target_sources(MonkeyWrench PRIVATE ${RESOURCE_FILES})

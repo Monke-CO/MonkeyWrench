@@ -73,7 +73,7 @@ void MainWindow::cpuBenchmarkClicked()
         QString result = worker->runBenchmark();
         QMetaObject::invokeMethod(ui->cpuScore,"setText",Qt::QueuedConnection,Q_ARG(QString,result));
     });
-
+    thread->start();
     gif->stop();
     ui->cpuGifLabel->hide();
     ui->cpuResult->show();
