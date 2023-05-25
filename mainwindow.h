@@ -17,6 +17,11 @@
 #include <QPushButton>
 #include <QTimer>
 #include <QMovie>
+#include <QDialog>
+#include "cpuworker.h"
+#include "hddworker.h"
+#include <QThread>
+#include <QFuture>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -47,6 +52,7 @@ private:
     void waitAsync(int);
     void cpuBenchmarkClicked();
     void hddBenchmarkClicked();
+    void invisibleButtonClicked();
 };
 
 #endif // MAINWINDOW_H

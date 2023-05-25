@@ -104,7 +104,7 @@ QTabBar::tab {
 </string>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <property name="iconSize">
         <size>
@@ -215,6 +215,33 @@ QTabBar::tab {
           <pixmap resource="resources.qrc">:/resources/monkey-holding-wrench.ico</pixmap>
          </property>
          <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="invisibleButton">
+         <property name="geometry">
+          <rect>
+           <x>300</x>
+           <y>43</y>
+           <width>601</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton
+ {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333333;
+    background-color: rgba(0,0,0,0);
+ 
+}
+</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="flat">
           <bool>true</bool>
          </property>
         </widget>

@@ -12,6 +12,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Widgets Gui)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
+add_subdirectory(benchmarks)
+
 qt6_add_resources(RESOURCE_FILES resources.qrc)
 set(PROJECT_SOURCES
         main.cpp
@@ -50,6 +52,10 @@ endif()
 
 target_link_libraries(MonkeyWrench PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
+	hdd-lib
+	cpu-lib
+        logger-lib
+	timer-lib
 )
 
 target_sources(MonkeyWrench PRIVATE ${RESOURCE_FILES})

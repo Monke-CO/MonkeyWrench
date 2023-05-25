@@ -30,11 +30,32 @@ void MainWindow::doConnections()
     connect(ui->comboBox,QOverload<int>::of(&QComboBox::currentIndexChanged),this, &MainWindow::updateHddLabel);
     connect(ui->cpuButton,&QPushButton::clicked,this,&MainWindow::cpuBenchmarkClicked);
     connect(ui->hddButton,&QPushButton::clicked,this,&MainWindow::hddBenchmarkClicked);
+    connect(ui->invisibleButton,&QPushButton::clicked,this,&MainWindow::invisibleButtonClicked);
 }
 
 void MainWindow::updateHddLabel(int index)
 {
     ui->hddLabel->setText(getDetailedStorageInfo(QString::number(index)));
+}
+
+void MainWindow::invisibleButtonClicked()
+{
+    QDialog dialog(this);
+    dialog.setWindowTitle("NEVER FORGET");
+
+    QVBoxLayout layout(&dialog);
+    QLabel label(&dialog);
+    layout.addWidget(&label);
+    QPixmap pixmap(":/resources/harambe.jpg");
+    label.setStyleSheet("font-size: 18px; "
+                        "font-weight: bold;"
+                        "color: #333333;"
+                        "background-color: #EBD68E;"
+                        "border: 2px solid #CCCCCC;"
+                        "border-radius: 10px;"
+                        "padding: 10px; ");
+    label.setPixmap(pixmap);
+    dialog.exec();
 }
 
 void MainWindow::cpuBenchmarkClicked()
@@ -45,8 +66,14 @@ void MainWindow::cpuBenchmarkClicked()
     ui->cpuLoading->show();
     gif->start();
 
-    //simulate benchmark
-    waitAsync(2000);
+    auto* worker = new Benchmarking::cpuWorker();
+    QThread *thread = new QThread();
+
+    QObject::connect(thread, &QThread::started,[this, &worker](){
+        QString result = worker->runBenchmark();
+        QMetaObject::invokeMethod(ui->cpuScore,"setText",Qt::QueuedConnection,Q_ARG(QString,result));
+    });
+
     gif->stop();
     ui->cpuGifLabel->hide();
     ui->cpuResult->show();

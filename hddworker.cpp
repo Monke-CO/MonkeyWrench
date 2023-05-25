@@ -2,7 +2,7 @@
 
 namespace Benchmarking {
 
-hddWorker::hddWorker()
+hddWorker::hddWorker() : QObject()
 {
 
 }
