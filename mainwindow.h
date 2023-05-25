@@ -22,6 +22,8 @@
 #include "hddworker.h"
 #include <QThread>
 #include <QFuture>
+#include <QtConcurrent/QtConcurrent>
+#include <QFutureWatcher>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

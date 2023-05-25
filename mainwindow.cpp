@@ -60,24 +60,37 @@ void MainWindow::invisibleButtonClicked()
 
 void MainWindow::cpuBenchmarkClicked()
 {
+    // Create and start the loading GIF
     QMovie* gif = new QMovie(":/resources/monkey-spinning-holding-hands.gif");
     ui->cpuGifLabel->setMovie(gif);
     ui->cpuGifLabel->show();
     ui->cpuLoading->show();
     gif->start();
 
-    auto* worker = new Benchmarking::cpuWorker();
-    QThread *thread = new QThread();
+    // Create a QFutureWatcher to monitor the asynchronous benchmark execution
+    QFutureWatcher<QString> *watcher = new QFutureWatcher<QString>(this);
+    connect(watcher, &QFutureWatcher<QString>::finished, this, [this, watcher, gif]() {
+        const QString& result = watcher->result();
+        ui->cpuResult->setText(result);
 
-    QObject::connect(thread, &QThread::started,[this, &worker](){
-        QString result = worker->runBenchmark();
-        QMetaObject::invokeMethod(ui->cpuScore,"setText",Qt::QueuedConnection,Q_ARG(QString,result));
+        // Stop the GIF and update the UI visibility
+        gif->stop();
+        ui->cpuGifLabel->hide();
+        ui->cpuResult->show();
+        ui->cpuLoading->hide();
+
+        // Clean up the watcher
+        watcher->deleteLater();
     });
-    thread->start();
-    gif->stop();
-    ui->cpuGifLabel->hide();
-    ui->cpuResult->show();
-    ui->cpuLoading->hide();
+
+    // Start the benchmark asynchronously
+    QFuture<QString> future = QtConcurrent::run([]() {
+        Benchmarking::cpuWorker worker;
+        return worker.runBenchmark();
+    });
+
+    // Set the future for monitoring
+    watcher->setFuture(future);
 }
 
 void MainWindow::hddBenchmarkClicked()
@@ -88,12 +101,30 @@ void MainWindow::hddBenchmarkClicked()
     ui->hddLoading->show();
     gif->start();
 
-    //simulate benchmark
-    waitAsync(2000);
-    gif->stop();
-    ui->hddGifLabel->hide();
-    ui->hddResult->show();
-    ui->hddLoading->hide();
+    // Create a QFutureWatcher to monitor the asynchronous HDD benchmark execution
+    QFutureWatcher<QString> *watcher = new QFutureWatcher<QString>(this);
+    connect(watcher, &QFutureWatcher<QString>::finished, this, [this, watcher, gif]() {
+        const QString& result = watcher->result();
+        ui->hddResult->setText(result);
+
+        // Stop the GIF and update the UI visibility
+        gif->stop();
+        ui->hddGifLabel->hide();
+        ui->hddResult->show();
+        ui->hddLoading->hide();
+
+        // Clean up the watcher
+        watcher->deleteLater();
+    });
+
+    // Start the HDD benchmark asynchronously
+    QFuture<QString> future = QtConcurrent::run([]() {
+        Benchmarking::hddWorker worker;
+        return worker.runBenchmark();
+    });
+
+    // Set the future for monitoring
+    watcher->setFuture(future);
 }
 void MainWindow::setSystemInformationLabel()
 {

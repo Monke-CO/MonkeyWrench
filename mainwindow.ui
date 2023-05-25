@@ -104,7 +104,7 @@ QTabBar::tab {
 </string>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <property name="iconSize">
         <size>
@@ -384,6 +384,9 @@ QPushButton:pressed {
          <property name="text">
           <string>Score</string>
          </property>
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
+         </property>
         </widget>
         <widget class="QLabel" name="cpuGifLabel">
          <property name="geometry">
@@ -607,6 +610,9 @@ QPushButton:pressed {
          </property>
          <property name="text">
           <string>Score</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
          </property>
         </widget>
         <widget class="QLabel" name="hddGifLabel">
